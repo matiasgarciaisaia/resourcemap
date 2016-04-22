@@ -332,6 +332,40 @@ describe CollectionsController, :type => :controller do
     expect(sites.second['name']).not_to eq('NotThisOne')
   end
 
+  it "gets multiple matching sites by updated_since" do
+    collection.sites.make name: 'Target', updated_at: 1.year.ago
+    collection.sites.make name: 'NotThisOne', updated_at: 1.week.ago
+    collection.sites.make name: 'TallLand', updated_at: 3.years.ago
+
+    get :search, collection_id: collection.id, updated_since: 2.years.ago
+
+    result = JSON.parse response.body
+    sites = result["sites"]
+
+    expect(sites.size).to eq(2)
+    expect(sites.map { |site| site['name'] }).to include 'Target'
+    expect(sites.map { |site| site['name'] }).to include 'NotThisOne'
+    expect(sites.first['name']).not_to eq('TallLand')
+    expect(sites.second['name']).not_to eq('TallLand')
+  end
+
+  it "gets multiple matching sites by created_since" do
+    collection.sites.make name: 'Target', created_at: 1.year.ago
+    collection.sites.make name: 'NotThisOne', created_at: 1.week.ago
+    collection.sites.make name: 'TallLand', created_at: 3.years.ago
+
+    get :search, collection_id: collection.id, created_since: 2.years.ago
+
+    result = JSON.parse response.body
+    sites = result["sites"]
+
+    expect(sites.size).to eq(2)
+    expect(sites.map { |site| site['name'] }).to include 'Target'
+    expect(sites.map { |site| site['name'] }).to include 'NotThisOne'
+    expect(sites.first['name']).not_to eq('TallLand')
+    expect(sites.second['name']).not_to eq('TallLand')
+  end
+
   it "applys multiple filters" do
     layer = collection.layers.make
     numeric = layer.numeric_fields.make :code => 'numeric'

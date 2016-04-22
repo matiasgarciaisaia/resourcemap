@@ -63,6 +63,14 @@
 
       %a.button.white{ko(click: '$root.filterByName')} OK
     //ko
+    #refine-row{ko(click: 'function (data, event) { $root.toggleRefineProperty("created_since")}')}
+      %img.arrow{ko(attr: {src: "'#{InsteddRails.url}/theme/images/icons/misc/grey/arrow' + (expandedRefineProperty() == \"created_since\" ? 'Down' : 'Right') + '.png'"})}
+      %span Created since
+    /ko if: expandedRefineProperty() == 'created_since'
+    .filter-content
+      %input.ux-datepicker.w20{ko(datePicker: '$root.expandedRefinePropertyDateFrom'), type: :text }
+      %a.button.white{ko(click: '$root.filterByCreatedSince')} OK
+    //ko
     /ko foreach: currentCollection().refineFields()
     #refine-row{ko(click: 'function (data, event) { $root.toggleRefineProperty($data.esCode) }')}
       %img.arrow{ko(attr: {src: "'#{InsteddRails.url}/theme/images/icons/misc/grey/arrow' + ($root.expandedRefineProperty() == esCode ? 'Down' : 'Right') + '.png'"})}

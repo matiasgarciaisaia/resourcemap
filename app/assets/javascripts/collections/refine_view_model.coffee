@@ -52,6 +52,7 @@ onCollections ->
       @filters.remove filter
 
     @filterByLastHour: ->
+      debugger
       if(!@filteringByProperty(FilterByLastHour))
         @filters.push(new FilterByLastHour())
       @hideRefinePopup()
@@ -79,6 +80,13 @@ onCollections ->
     @filterByName: ->
       if(!@filteringByProperty(FilterByName))
         @filters.push(new FilterByName(null, @expandedRefinePropertyOperator(), @expandedRefinePropertyValue()))
+      @hideRefinePopup()
+
+    @filterByCreatedSince: ->
+      debugger
+      if(!@filteringByProperty(FilterByCreatedSince))
+        debugger
+        @filters.push(new FilterByCreatedSince(@expandedRefinePropertyDateFrom()))
       @hideRefinePopup()
 
     @anyDateParamenterAbsent: ->

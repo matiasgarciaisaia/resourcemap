@@ -97,7 +97,7 @@ class FredApiController < ApplicationController
     end
 
     #Perform queries
-    except_params = [:action, :controller, :format, :id, :collection_id, :sortAsc, :sortDesc, :offset, :limit, :fields, :name, :allProperties, :coordinates, :active, :createdAt, :updatedAt, :updatedSince, "identifiers.id", "identifiers.agency", "identifiers.context", :uuid, :locale]
+    except_params = [:action, :controller, :format, :id, :collection_id, :sortAsc, :sortDesc, :offset, :limit, :fields, :name, :allProperties, :coordinates, :active, :createdAt, :updatedAt, :updatedSince, "identifiers.id", "identifiers.agency", "identifiers.context", :uuid, :locale, :createdSince]
 
     # Query by Core Properties
     search.name(params[:name]) if params[:name]
@@ -110,6 +110,8 @@ class FredApiController < ApplicationController
 
     # Query by updatedSince
     search.updated_since(params[:updatedSince]) if params[:updatedSince]
+
+    search.created_since(params[:createdSince]) if params[:createdSince]
 
     # Query by Extended Properties
     params_query = params.except(*except_params)

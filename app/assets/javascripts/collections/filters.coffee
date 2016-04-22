@@ -61,6 +61,15 @@ onCollections ->
     descriptionNonEmpty: =>
       Jed.sprintf(window.__("where Name starts with '%s'"), @value)
 
+  class @FilterByCreatedSince extends FilterByDate
+    constructor: (value) ->
+      @date = value
+    setQueryParams: (options, api = false) =>
+      debugger
+      options.created_since = @date
+
+    description: => __("")
+
   class @FilterBySiteProperty extends FilterMaybeEmpty
     constructor: (field, operator, name, id) ->
       @field = field
